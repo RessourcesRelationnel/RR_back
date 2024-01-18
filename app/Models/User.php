@@ -47,11 +47,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function articles(): HasMany
+    public function articles(): hasMany
     {
         return $this->hasMany(Article::class);
     }
-    public function commentaries(): HasMany
+    public function commentaries(): hasMany
     {
         return $this->hasMany(Commentary::class);
     }

@@ -18,7 +18,8 @@ class Article extends Model
         'content',
         'media',
         'img',
-        'validated'
+        'validated',
+        'user_id'
     ];
 
     protected $casts = [

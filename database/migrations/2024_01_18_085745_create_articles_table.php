@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->string("content");
-            $table->string("img_path")->nullable();
-            $table->string("media_path")->nullable();
-            $table->boolean("validated")->default(0);
+            $table->string("img")->nullable();
+            $table->string("media")->nullable();
+            $table->boolean("validated")->default(false);
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });
