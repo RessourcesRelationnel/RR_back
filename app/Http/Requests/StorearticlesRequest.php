@@ -26,6 +26,7 @@ class StorearticlesRequest extends FormRequest
             'content'=> ['string', 'required'],
             'img'=> ['mimes:jpg,bmp,png', 'max:1024'],
             'media'=> ['mimes:pdf' ],
+            'categories_id'=> ['required', 'string'],
 
         ];
     }

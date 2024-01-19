@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Http\Requests\StorearticlesRequest;
 use App\Http\Requests\UpdatearticlesRequest;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,7 +20,6 @@ class ArticlesController extends Controller
     public function index()
     {
         $articles = Article::where('validated', true)->get();
-
         return response()->json(['success'=> $articles], Response::HTTP_OK);
     }
 
@@ -32,10 +32,16 @@ class ArticlesController extends Controller
             $validatedData = $request->validated();
             $article = new Article($validatedData);
             $article->user_id = Auth::user()->id;
+           $categories_id =  json_decode($request['categories_id']);
+           foreach ($categories_id as $category) {
+                if (Category::find($category))  {
+                $article->categories()->attach($category);
+                }
+                else{
+                }
+            }
             $article->save();
 
-            return response()->json([
-                'success' => 'Article bien créer', 200]);
         }else{
             return response()->json(['erreur' => 'Un article est déjà en attente de validation'],200 );
         }
@@ -60,9 +66,14 @@ class ArticlesController extends Controller
      */
     public function update(UpdatearticlesRequest $request, Article $article)
     {
-        $validateArticle = $request->validated();
-        $article->update($validateArticle);
+        if ($article['user_id'] == Auth::user()){
+            $validatedData = $request->validated();
+            $validatedData['validated'] = false;
+            $article->update($validatedData);
+            return response()->json($article, Response::HTTP_ACCEPTED);
+        }
         return response()->json($article, Response::HTTP_ACCEPTED);
+
     }
 
     /**

@@ -34,25 +34,35 @@ class AdminController extends Controller
         return $moderators;
     }
 
-    public function promoteUser(User $user){
-
-
+    public function promoteToModerator(User $user){
 
         $roles = $user->getRoleNames();
 
-        //$user->removeRole(        json_encode($roles));
-        $user->assignRole('admin');
+       foreach ($roles as $role) {
+            $user->removeRole($role);
+        }
 
-        return  $roles;
+        $user->assignRole('moderator');
+
+        return  response() ->json(['message' => 'moderator added successfully']);
     }
 
-       /* $user = User::find($userId);
+    public function revokeModerator(User $user){
 
-        $moderatorRole = Role::where('name', 'moderator')->first();
+        $roles = $user->getRoleNames();
 
-        $user->assignRole($moderatorRole);
+        foreach ($roles as $exist) {
+            if($exist =='moderator'){
+                foreach ($roles as $role) {
+                    $user->removeRole($role);
+                }
+                $user->assignRole('user');
+                return response() ->json(['message' => 'moderator revoked']);
+            }
+        }
 
-        return response()->json(['message' => 'Utilisateur promu en modérateur avec succès']);*/
+        return  response() ->json(['message' => 'user is not moderator']);
+    }
 
     public function deleteComment(){
 

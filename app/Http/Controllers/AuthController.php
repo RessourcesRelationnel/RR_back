@@ -12,7 +12,6 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
         $credentials = Validator::make($request->all(),[
             'pseudo' => 'required|string',
             'email' => 'required|email|unique:users',
@@ -48,11 +47,11 @@ class AuthController extends Controller
         ]);
 
         if($credentials->fails()){
-            return response()->json(['erreur' => $credentials->errors()], 401);
+            return response()->json(['error' => $credentials->errors()], 401);
         }
 
         if(!Auth::attempt(['email' => $request['email'], 'password' => $request['password']], true)){
-            return response()->json(['erreur' => $credentials->errors()], 401);
+            return response()->json(['error' => $credentials->errors()], 401);
         }
 
         $user = Auth::user();
@@ -66,7 +65,6 @@ class AuthController extends Controller
         if(Auth::user()->currentAccessToken()->delete()){
             return response()->json(['success', 'Déconnexion réussi'], 200);
         }
-
         return response()->json(['error' => 'Internal serveur error'],500);
     }
 }
