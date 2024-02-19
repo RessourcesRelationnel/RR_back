@@ -56,4 +56,8 @@ class User extends Authenticatable
         return $this->hasMany(Commentary::class);
     }
 
+    public function isOwner($){
+        $this->
+    }
+
 }

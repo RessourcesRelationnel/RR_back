@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\commentary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorearticlesRequest extends FormRequest
+class UpdatecommentariesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,7 @@ class StorearticlesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=> ['string','required'],
-            'content'=> ['string', 'required'],
-            'img'=> ['mimes:jpg,bmp,png', 'max:1024'],
-            'media'=> ['mimes:pdf' ],
-            'categories_id'=> ['required', 'string'],
-
+            'comment'=> ['string', 'required'],
         ];
     }
 }

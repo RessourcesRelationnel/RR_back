@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\article\StorearticlesRequest;
+use App\Http\Requests\article\UpdatearticlesRequest;
 use App\Models\Article;
-use App\Http\Requests\StorearticlesRequest;
-use App\Http\Requests\UpdatearticlesRequest;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +17,15 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function indexArticleValidated()
     {
         $articles = Article::where('validated', true)->get();
+        return response()->json(['success'=> $articles], Response::HTTP_OK);
+    }
+
+    public function indexArticleNotValidated()
+    {
+        $articles = Article::where('validated', false)->get();
         return response()->json(['success'=> $articles], Response::HTTP_OK);
     }
 
@@ -60,7 +66,7 @@ class ArticlesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatearticlesRequest  $request
+     * @param  \App\Http\Requests\article\UpdatearticlesRequest  $request
          * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\JsonResponse
      */
@@ -84,7 +90,12 @@ class ArticlesController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
-        return response()->json($article::all());
+        try {
+            $article->delete();
+        }catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        return response()->json([Article::all(), 'Suppression réussi'], 200);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\favori;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdatefavoriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name'=> ['string','nullable','max:100'],
-            'last_name'=> ['string','nullable','max:100'],
-            'pseudo'=> ['string','nullable','max:100'],
-            'email'=> ['email','nullable','unique:User,email'],
-            'password'=> ['email','nullable'],
+            'status' => ['boolean']
         ];
     }
 }

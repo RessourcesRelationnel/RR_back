@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\article;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatefavoriesRequest extends FormRequest
+class StorearticlesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,12 @@ class UpdatefavoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['boolean']
+            'title'=> ['string','required'],
+            'content'=> ['string', 'required'],
+            'img'=> ['mimes:jpg,bmp,png', 'max:1024'],
+            'media'=> ['mimes:pdf' ],
+            'categories_id'=> ['required', 'string'],
+
         ];
     }
 }
