@@ -6,7 +6,9 @@ use App\Http\Requests\article\StorearticlesRequest;
 use App\Http\Requests\article\UpdatearticlesRequest;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticlesController extends Controller
@@ -36,21 +38,33 @@ class ArticlesController extends Controller
 
         if(count($articles) < 1){
             $validatedData = $request->validated();
-            $article = new Article($validatedData);
-            $article->user_id = Auth::user()->id;
-            $categories_id = json_decode($request['categories_id']);
-           foreach ($categories_id as $category) {
-                if (Category::find($category))  {
-                    $article->categories()->attach($category);
-                }
-                else{
-                    return response()->json(['erreur' => 'Erreur'],500 );
-                }
-            }
-            $article->save();
+//            $article = new Article($validatedData);
 
+            try {
+                $article = Article::create([
+                    'title' => $validatedData['title'],
+                    'content' => $validatedData['content'],
+                    'user_id' => $user->id,
+                    'validated' => 0
+                ]);
+            }catch (\Exception $e){
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+
+            $categories_id = json_decode($validatedData['categories']);
+
+            // Si $categories_id n'est pas déjà un tableau, on le convertit en un tableau contenant une seule valeur
+            if (!is_array($categories_id)) {
+                $categories_id = [$categories_id];
+            }
+
+            foreach ($categories_id as $category) {
+                $article->categories()->attach($category);
+            }
+
+            return response()->json(['success' => 'Article créer'],200 );
         }else{
-            return response()->json(['erreur' => 'Un article est déjà en attente de validation'],200 );
+            return response()->json(['erreur' => 'Un article est déjà en attente de validation'],500 );
         }
     }
 
@@ -73,14 +87,12 @@ class ArticlesController extends Controller
      */
     public function update(UpdatearticlesRequest $request, Article $article)
     {
-        if ($article['user_id'] == Auth::user()){
+        if ($article->user_id === Auth::user()->id){
             $validatedData = $request->validated();
-            $validatedData['validated'] = false;
-            $article->update($validatedData);
+            $article->update($validatedData, ['validated' => 0]);
             return response()->json($article, Response::HTTP_ACCEPTED);
         }
         return response()->json($article, Response::HTTP_ACCEPTED);
-
     }
 
     /**

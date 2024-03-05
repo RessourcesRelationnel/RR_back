@@ -16,8 +16,8 @@ class AuthController extends Controller
             'pseudo' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
         ]);
 
         if($credentials->fails()){
@@ -25,8 +25,8 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'firstname' => $request['firstname'],
-            'lastname' => $request['lastname'],
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
             'pseudo' => $request['pseudo'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
@@ -35,13 +35,14 @@ class AuthController extends Controller
         if($user){
             $user->assignRole('user');
             $token = $user->createToken('access_token')->plainTextToken;
-            return response()->json(['token' => $token], 200);
+
+            return response()->json(['token' => $token, 'user' => $user], 200);
         }
     }
 
     public function login(Request $request){
         $credentials = Validator::make($request->all(), [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8'
         ]);
 
@@ -49,14 +50,15 @@ class AuthController extends Controller
             return response()->json(['error' => $credentials->errors()], 401);
         }
 
-        if(!Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], true)){
-            return response()->json(['error' => $credentials->errors()], 401);
+        if(!Auth::attempt(['email' => $request['email'], 'password' => $request['password']], true)){
+            return response()->json(['error' => $request->errors()], 401);
         }
 
         $user = Auth::user();
         $token = $user->createToken('access_token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+
+        return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
     // il faudra tester que ca fonctionne

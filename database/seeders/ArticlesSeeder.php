@@ -16,18 +16,22 @@ class ArticlesSeeder extends Seeder
         Article::create([
             'title' => 'Article 1',
             'content' => 'La mere madeleine',
+            'user_id' => 1,
+            'validated' => 1
         ]);
 
         Article::create([
             'title' => 'Article 2',
             'content' => 'Le pere madeleine',
+            'user_id' => 1,
+            'validated' => 1
         ]);
 
         Article::create([
             'title' => 'Article 3',
             'content' => 'Le fils madeleine',
+            'user_id' => 1,
+            'validated' => 1
         ]);
-
-
     }
 }

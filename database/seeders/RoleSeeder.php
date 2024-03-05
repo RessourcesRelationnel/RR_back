@@ -13,7 +13,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-
         Permission::create(['name' => 'validate_article']);
         Permission::create(['name' => 'promote_moderator']);
         Permission::create(['name' => 'revoke_moderator']);
