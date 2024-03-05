@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('shows/unvalidated', [UserController::class, 'getUnvalidateArticles'])->name('get-unvalidate-articles');
             Route::get('article/{article}/validate', [UserController::class, 'validateArticle'])->name('validate-article');
         });
-        
+
         Route::get('delete-comment/{commentary}', [CommentariesController::class, 'destroy'])->middleware(['can:delete_comment']);
 
         //          --------------Categories routes ---------------

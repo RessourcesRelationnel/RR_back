@@ -16,8 +16,8 @@ class AuthController extends Controller
             'pseudo' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'firstname' => 'nullable|string',
-            'lastname' => 'nullable|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
         ]);
 
         if($credentials->fails()){
@@ -40,7 +40,6 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-
         $credentials = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:8'
@@ -50,7 +49,7 @@ class AuthController extends Controller
             return response()->json(['error' => $credentials->errors()], 401);
         }
 
-        if(!Auth::attempt(['email' => $request['email'], 'password' => $request['password']], true)){
+        if(!Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], true)){
             return response()->json(['error' => $credentials->errors()], 401);
         }
 

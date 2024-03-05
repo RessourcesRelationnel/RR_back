@@ -38,12 +38,13 @@ class ArticlesController extends Controller
             $validatedData = $request->validated();
             $article = new Article($validatedData);
             $article->user_id = Auth::user()->id;
-           $categories_id =  json_decode($request['categories_id']);
+            $categories_id = json_decode($request['categories_id']);
            foreach ($categories_id as $category) {
                 if (Category::find($category))  {
-                $article->categories()->attach($category);
+                    $article->categories()->attach($category);
                 }
                 else{
+                    return response()->json(['erreur' => 'Erreur'],500 );
                 }
             }
             $article->save();
