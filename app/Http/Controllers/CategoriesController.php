@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\category\StorecategoriesRequest;
+use App\Http\Requests\category\UpdatecategoriesRequest;
 use App\Models\category;
-use App\Http\Requests\StorecategoriesRequest;
-use App\Http\Requests\UpdatecategoriesRequest;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesController extends Controller
@@ -19,25 +18,24 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
-
         return response()->json(['success'=> $categories], Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorecategoriesRequest  $request
+     * @param  \App\Http\Requests\category\StorecategoriesRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StorecategoriesRequest $request)
     {
         $validateCategories = $request->validated();
+
         try {
             $newCategories = new Category($validateCategories);
             $newCategories->save();
-        }catch (\Exception $e) {
-            // En cas d'exception, renvoyez une réponse JSON avec le message d'erreur et le code de statut HTTP 500 (Erreur interne du serveur)
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
         }
 
         return response()->json($newCategories, Response::HTTP_CREATED);
@@ -46,7 +44,7 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(category $categories)
     {
         //
     }
@@ -54,14 +52,33 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatecategoriesRequest  $request
+     * @param  \App\Http\Requests\category\UpdatecategoriesRequest  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatecategoriesRequest $request, Category $category)
+    public function updateCategory(UpdatecategoriesRequest $request, category $category)
     {
         $validateCategory = $request->validated();
-        $category->update($validateCategory);
+
+        try {
+            $category->update($validateCategory);
+        }catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+        return response()->json($category, Response::HTTP_ACCEPTED);
+    }
+
+    public function updateArticleCategory(UpdatecategoriesRequest $request, category $category)
+    {
+        $validateCategory = $request->validated();
+
+        try {
+            $category->update($validateCategory);
+        }catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
         return response()->json($category, Response::HTTP_ACCEPTED);
     }
 
@@ -71,7 +88,7 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Category $category)
+    public function destroy(category $category)
     {
         $category->delete();
         return response()->json($category::all());

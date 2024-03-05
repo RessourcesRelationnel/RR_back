@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\commentary\StorecommentariesRequest;
+use App\Http\Requests\commentary\UpdatecommentariesRequest;
 use App\Models\Article;
-use App\Models\Category;
 use App\Models\Commentary;
-use App\Http\Requests\StorecommentariesRequest;
-use App\Http\Requests\UpdatecommentariesRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +18,7 @@ class CommentariesController extends Controller
         return response()->json(['response' => $commentaries]);
     }
 
-    public function store (Article $article, StorecommentariesRequest $request)
+    public function store(Article $article, StorecommentariesRequest $request)
     {
         $validatedData = $request->validated();
         $commentary = new Commentary($validatedData);
@@ -47,8 +45,13 @@ class CommentariesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function destroy(Category $commentary)
+    public function destroy(Commentary $commentary)
     {
-        //
+        try {
+            $commentary->delete();
+        }catch (\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        return response()->json('Suppression réussi', 200);
     }
 }

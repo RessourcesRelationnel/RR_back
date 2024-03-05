@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\commentary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatefavoriesRequest extends FormRequest
+class UpdatecommentariesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class UpdatefavoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['boolean']
+            'comment'=> ['string', 'required'],
         ];
     }
 }

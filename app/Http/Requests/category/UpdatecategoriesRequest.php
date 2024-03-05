@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorecategoriesRequest extends FormRequest
+class UpdatecategoriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class StorecategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['string', 'required'],
+            'name'=> ['string', 'nullable'],
         ];
     }
 }
