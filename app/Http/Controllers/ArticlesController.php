@@ -111,4 +111,19 @@ class ArticlesController extends Controller
 
         return response()->json([Article::all(), 'Suppression réussi'], 200);
     }
+
+    public function getUnvalidateArticles(){
+        $articles = Article::where('validated', false)->get();
+
+        return response()->json(['success' => $articles]);
+    }
+    public function validateArticle(Article $article){
+        if($article && $article->validated == false){
+            $article->validated = true;
+            $article->save();
+            return response()->json(['success' => 'Article publié', $article]);
+        }else{
+            return response()->json(['error' => 'L"article n"a pas pu etre publié']);
+        }
+    }
 }

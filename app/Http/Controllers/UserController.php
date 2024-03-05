@@ -11,20 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function getUnvalidateArticles(){
-        $articles = Article::where('validated', false)->get();
-
-        return response()->json(['success' => $articles]);
-    }
-    public function validateArticle(Article $article){
-        if($article && $article->validated == false){
-            $article->validated = true;
-            return response()->json(['success' => 'Article publié']);
-        }else{
-            return response()->json(['error' => 'L"article n"a pas pu etre publié']);
-        }
-    }
-
     public function getAdmin(){
         $admins = User::role('admin')->get();
         return $admins;

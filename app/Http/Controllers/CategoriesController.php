@@ -29,16 +29,17 @@ class CategoriesController extends Controller
      */
     public function store(StorecategoriesRequest $request)
     {
-        $validateCategories = $request->validated();
+        $validator = $request->validated();
 
         try {
-            $newCategories = new Category($validateCategories);
-            $newCategories->save();
+            Category::create([
+                'name' => $validator['name'],
+            ]);
         }catch (\Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
-        return response()->json($newCategories, Response::HTTP_CREATED);
+        return response()->json($validator, Response::HTTP_CREATED);
     }
 
     /**
@@ -56,8 +57,11 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCategory(UpdatecategoriesRequest $request, category $category)
+    public function updateCategory(UpdatecategoriesRequest $request, Category $category)
     {
+        return response()->json("test");
+
+
         $validateCategory = $request->validated();
 
         try {
@@ -65,11 +69,10 @@ class CategoriesController extends Controller
         }catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
         return response()->json($category, Response::HTTP_ACCEPTED);
     }
 
-    public function updateArticleCategory(UpdatecategoriesRequest $request, category $category)
+    public function updateArticleCategory(UpdatecategoriesRequest $request, Category $category)
     {
         $validateCategory = $request->validated();
 

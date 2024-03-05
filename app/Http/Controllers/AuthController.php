@@ -35,10 +35,10 @@ class AuthController extends Controller
         if($user){
             $user->assignRole('user');
             $token = $user->createToken('access_token')->plainTextToken;
-
-            return response()->json(['token' => $token, 'user' => $user], 200);
+            return response()->json(['token' => $token], 200);
         }
     }
+
 
     public function login(Request $request){
         $credentials = Validator::make($request->all(), [

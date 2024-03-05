@@ -17,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+//fonctionne pas
+Route::get('/validate_article', function(){
+    return 'test';
+})->middleware(['can:validate_article']);
+
+Route::get('/validate_article', function(){
+    return 'test';
+})->middleware(['can:validate_article']);
+
 Route::get('/articles/index', [ArticlesController::class, 'indexArticleValidated'])->name('article.index');
 Route::get('/commentaries/index/{article}', [CommentariesController::class, 'index']);
 
@@ -61,10 +70,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         //   -------------------------------------Moderator routes --------------------------------
-
         Route::middleware(['can:validate_article'])->group(function () {
-            Route::get('shows/unvalidated', [UserController::class, 'getUnvalidateArticles'])->name('get-unvalidate-articles');
-            Route::get('article/{article}/validate', [UserController::class, 'validateArticle'])->name('validate-article');
+            Route::get('articles/unvalidated', [ArticlesController::class, 'getUnvalidateArticles'])->name('get-unvalidate-articles');
+            Route::get('article/{article}/validate', [ArticlesController::class, 'validateArticle'])->name('validate-article');
         });
 
         Route::get('delete-comment/{commentary}', [CommentariesController::class, 'destroy'])->middleware(['can:delete_comment']);
