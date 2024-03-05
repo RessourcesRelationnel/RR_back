@@ -35,7 +35,7 @@ class FavoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(favorite $favories)
+    public function show(Favorite $favory)
     {
         //
     }
@@ -43,7 +43,7 @@ class FavoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(favorite $favories)
+    public function edit(Favorite $favory)
     {
         //
     }
@@ -51,7 +51,7 @@ class FavoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatefavoriesRequest $request, favorite $favories)
+    public function update(UpdatefavoriesRequest $request, Favorite $favory)
     {
         //
     }

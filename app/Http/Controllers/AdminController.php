@@ -15,6 +15,7 @@ class AdminController extends Controller
 
             return response()->json(['success' => $articles]);
     }
+
     public function validateArticle(Article $article){
         if($article && $article->validated == false){
             $article->validated = true;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use App\Models\Commentary;
 use App\Http\Requests\StorecommentariesRequest;
 use App\Http\Requests\UpdatecommentariesRequest;
@@ -46,7 +47,7 @@ class CommentariesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function destroy(commentary $commentaries)
+    public function destroy(Category $commentary)
     {
         //
     }

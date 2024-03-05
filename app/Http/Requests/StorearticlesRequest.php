@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorearticlesRequest extends FormRequest
 {
@@ -22,12 +23,11 @@ class StorearticlesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=> ['string','required'],
-            'content'=> ['string', 'required'],
-            'img'=> ['mimes:jpg,bmp,png', 'max:1024'],
-            'media'=> ['mimes:pdf' ],
-            'categories_id'=> ['required', 'string'],
-
+            'title' => ['required', 'string'],
+            'content' => ['required', 'string'],
+            'img' => ['nullable', 'image', 'max:1024'], // Permettre une valeur nulle pour l'image
+            'media' => ['nullable', 'mimes:pdf'], // Permettre une valeur nulle pour le média
+            'categories_id' => ['required', 'string', Rule::exists('categories', 'id')],
         ];
     }
 }

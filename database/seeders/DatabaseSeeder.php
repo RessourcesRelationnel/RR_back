@@ -13,5 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            ArticlesSeeder::class,
+            CategoriesSeeder::class,
+            CommentariesSeeder::class,
+            FavoriesSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+
+        ]);
     }
 }

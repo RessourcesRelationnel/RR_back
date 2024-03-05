@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentariesController;
+use \App\Http\Controllers\CategoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/article/index', [ArticlesController::class, 'index']);
+Route::get('/categories/index', [CategoriesController::class, 'index']);
 Route::get('/commentary/index/{article}', [CommentariesController::class, 'index']);
 
 
@@ -48,6 +50,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
                 Route::get('shows/unvalidated', [AdminController::class, 'showUnvalidateArticles']);
                 Route::get('article/{article}/validate', [AdminController::class, 'validateArticle']);
             });
+
+            Route::get('category/create', [CategoriesController::class, 'store']);
 
             Route::middleware(['can:promote_moderator'])->group(function () {
                 Route::get('promote-to-moderator/{user}', [AdminController::class, 'promoteToModerator']);

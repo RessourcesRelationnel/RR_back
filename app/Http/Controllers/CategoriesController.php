@@ -31,18 +31,22 @@ class CategoriesController extends Controller
      */
     public function store(StorecategoriesRequest $request)
     {
-
         $validateCategories = $request->validated();
-        $newCategories = new Category($validateCategories);
-        $newCategories->save();
-        return response()->json($newCategories, Response::HTTP_CREATED);
+        try {
+            $newCategories = new Category($validateCategories);
+            $newCategories->save();
+        }catch (\Exception $e) {
+            // En cas d'exception, renvoyez une réponse JSON avec le message d'erreur et le code de statut HTTP 500 (Erreur interne du serveur)
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
+        return response()->json($newCategories, Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(category $categories)
+    public function show(Category $category)
     {
         //
     }
@@ -54,12 +58,11 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdatecategoriesRequest $request, category $category)
+    public function update(UpdatecategoriesRequest $request, Category $category)
     {
         $validateCategory = $request->validated();
         $category->update($validateCategory);
         return response()->json($category, Response::HTTP_ACCEPTED);
-
     }
 
     /**
@@ -68,7 +71,7 @@ class CategoriesController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(category $category)
+    public function destroy(Category $category)
     {
         $category->delete();
         return response()->json($category::all());
