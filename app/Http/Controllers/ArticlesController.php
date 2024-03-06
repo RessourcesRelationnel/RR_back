@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\article\StorearticlesRequest;
 use App\Http\Requests\article\UpdatearticlesRequest;
 use App\Models\Article;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArticlesController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +17,14 @@ class ArticlesController extends Controller
      */
     public function indexArticleValidated()
     {
-        $articles = Article::where('validated', true)->get();
-        return response()->json(['success'=> $articles], Response::HTTP_OK);
+        // Charger la relation 'user' en incluant seulement le pseudo
+        $articles = Article::with(['user' => function ($query) {
+            $query->select('id', 'pseudo');
+        }])
+            ->where('validated', true)
+            ->get();
+
+        return response()->json(['success' => $articles], Response::HTTP_OK);
     }
 
     public function indexArticleNotValidated()
@@ -76,6 +78,7 @@ class ArticlesController extends Controller
     public function show(Article $article)
     {
         if($article->validated){
+            $article->load('categories');
             return response()->json($article, Response::HTTP_OK);
         }else{
             return response()->json(['error','Article non validé', 200]);
