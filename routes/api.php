@@ -17,16 +17,23 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//fonctionne pas
-Route::get('/validate_article', function(){
-    return 'test';
-})->middleware(['can:validate_article']);
 
-Route::get('/validate_article', function(){
-    return 'test';
-})->middleware(['can:validate_article']);
+Route::middleware(['can:validate_article'])->group(function () {
+    Route::get('articles/unvalidated', [ArticlesController::class, 'getUnvalidateArticles'])->name('get-unvalidate-articles');
+});
+
+
+//fonctionne pas
+//Route::get('/validate_article', function(){
+//    return 'test';
+//})->middleware(['can:validate_article']);
+//
+//Route::get('/validate_article', function(){
+//    return 'test';
+//})->middleware(['can:validate_article']);
 
 Route::get('/articles/index', [ArticlesController::class, 'indexArticleValidated'])->name('article.index');
+Route::get('/article/{article}', [ArticlesController::class, 'show'])->name('article.show');
 Route::get('/commentaries/index/{article}', [CommentariesController::class, 'index']);
 
 Route::group(['middleware' => ['guest']], function () {

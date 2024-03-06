@@ -75,7 +75,11 @@ class ArticlesController extends Controller
      */
     public function show(Article $article)
     {
-        return response()->json($article, Response::HTTP_OK);
+        if($article->validated){
+            return response()->json($article, Response::HTTP_OK);
+        }else{
+            return response()->json(['error','Article non validé', 200]);
+        }
     }
 
     /**
