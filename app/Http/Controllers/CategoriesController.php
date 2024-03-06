@@ -59,9 +59,6 @@ class CategoriesController extends Controller
      */
     public function updateCategory(UpdatecategoriesRequest $request, Category $category)
     {
-        return response()->json("test");
-
-
         $validateCategory = $request->validated();
 
         try {

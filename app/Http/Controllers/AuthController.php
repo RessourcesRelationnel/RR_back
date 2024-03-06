@@ -61,6 +61,12 @@ class AuthController extends Controller
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
+    public function getUser(User $user){
+        if($user === Auth::user()){
+            return response()->json(['success', $user], 200);
+        }
+    }
+
     // il faudra tester que ca fonctionne
     public function logout(){
         if(Auth::user()->currentAccessToken()->delete()){
