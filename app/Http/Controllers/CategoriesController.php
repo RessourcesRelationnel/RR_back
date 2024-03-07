@@ -45,9 +45,24 @@ class CategoriesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(category $categories)
+    public function getRecentArticles(Category $category)
     {
-        //
+        try {
+            $articles = $category->articles()
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'articles' => $articles
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+            ], 404);
+        }
     }
 
     /**

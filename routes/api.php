@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+  // ---------------------------Route sans AUTH------------------------
 
+Route::get('/category/{category}/articles', [CategoriesController::class, 'getRecentArticles'])->name('category.articles');
 Route::get('/articles/index', [ArticlesController::class, 'indexArticleValidated'])->name('article.index');
 Route::get('/article/{article}', [ArticlesController::class, 'show'])->name('article.show');
 Route::get('/commentaries/index/{article}', [CommentariesController::class, 'index']);
@@ -64,6 +66,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         });
 
         //   -------------------------------------Moderator routes --------------------------------
+
         Route::middleware(['can:validate_article'])->group(function () {
             Route::get('articles/unvalidated', [ArticlesController::class, 'getUnvalidateArticles'])->name('get-unvalidate-articles');
             Route::get('article/{article}/validate', [ArticlesController::class, 'validateArticle'])->name('validate-article');
@@ -82,6 +85,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('get/moderator', [UserController::class, 'getModerator']);
 
             //          -------------------------------------Articles routes --------------------------------
+
             Route::get('/articles/index-articles-not-validated', [ArticlesController::class, 'indexArticleNotValidated'])->name('article.indexArticleNotValidated');
         });
     });
