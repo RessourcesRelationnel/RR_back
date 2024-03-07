@@ -23,6 +23,7 @@ Route::get('/category/{category}/articles', [CategoriesController::class, 'getRe
 Route::get('/articles/index', [ArticlesController::class, 'indexArticleValidated'])->name('article.index');
 Route::get('/article/{article}', [ArticlesController::class, 'show'])->name('article.show');
 Route::get('/commentaries/index/{article}', [CommentariesController::class, 'index']);
+Route::get('/categories/index', [CategoriesController::class, 'index'])->name('category.index');
 
 Route::group(['middleware' => ['guest']], function () {
     //   -------------------------------------Auth routes --------------------------------
@@ -41,8 +42,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 //    surement dans un policies
     Route::post('/article/edit/{article}', [ArticlesController::class, 'update'])->name('article.update');
 
-    //   -------------------------------------Categories routes --------------------------------
-    Route::get('/categories/index', [CategoriesController::class, 'index'])->name('category.index');
 
     //   -------------------------------------Commentary routes --------------------------------
     Route::post('/commentary/add/{article}', [CommentariesController::class, 'store'])->name('commentary.store');
