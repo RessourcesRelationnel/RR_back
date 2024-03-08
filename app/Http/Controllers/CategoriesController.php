@@ -53,10 +53,7 @@ class CategoriesController extends Controller
                 ->limit(5)
                 ->get();
 
-            return response()->json([
-                'success' => true,
-                'articles' => $articles
-            ]);
+            return response()->json(['success' => $articles], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

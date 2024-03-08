@@ -20,6 +20,9 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'delete_comment']);
         Permission::create(['name' => 'can_see_dashboard']);
         Permission::create(['name' => 'create_delete_category']);
+        Permission::create(['name' => 'get_all_user']);
+        Permission::create(['name' => 'get_user_without_superadmin']);
+        Permission::create(['name' => 'get_user_without_admin']);
 
         Permission::create(['name' => 'revoke_admin']);
 
@@ -32,6 +35,8 @@ class RoleSeeder extends Seeder
         $superadmin->givePermissionTo('delete_article');
         $superadmin->givePermissionTo('create_delete_category');
         $superadmin->givePermissionTo('can_see_dashboard');
+        $superadmin->givePermissionTo('can_see_dashboard');
+        $superadmin->givePermissionTo('get_all_user');
 
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo('validate_article');
@@ -39,12 +44,14 @@ class RoleSeeder extends Seeder
         $admin->givePermissionTo('revoke_moderator');
         $admin->givePermissionTo('delete_comment');
         $admin->givePermissionTo('create_delete_category');
-        $admin->givePermissionTo('can_see_dashboard');
+        $admin->givePermissionTo('get_user_without_superadmin');
 
         $moderator = Role::create(['name' => 'moderator']);
         $moderator->givePermissionTo('validate_article');
         $moderator->givePermissionTo('delete_comment');
         $moderator->givePermissionTo('can_see_dashboard');
+        $admin->givePermissionTo('get_user_without_admin');
+
 
 
         Role::create(['name' => 'user']);

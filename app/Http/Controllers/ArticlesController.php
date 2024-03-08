@@ -40,12 +40,11 @@ class ArticlesController extends Controller
 
         if(count($articles) < 1){
             $validatedData = $request->validated();
-//            $article = new Article($validatedData);
-
             try {
                 $article = Article::create([
                     'title' => $validatedData['title'],
                     'content' => $validatedData['content'],
+                    //'media' => $validatedData['media'],
                     'user_id' => $user->id,
                     'validated' => 0
                 ]);

@@ -27,11 +27,10 @@ class StorearticlesRequest extends FormRequest
             'content' => ['required', 'string'],
             'img' => ['nullable', 'image', 'max:1024'], // Permettre une valeur nulle pour l'image
             'media' => ['nullable', 'mimes:pdf'], // Permettre une valeur nulle pour le média
-            'user_id' => ['required', 'string', Rule::exists('users', 'id')],
-            'categories' => ['required', 'string', Rule::exists('categories', 'id')],
-            // quand on enverra un tableau depuis le front
-            // 'categories' => ['required', 'array'],
-            // 'categories.*.id' => ['required', 'string', Rule::exists('categories', 'id')],
+            //'categories' => ['required', 'string', Rule::exists('categories', 'id')],
+
+            'categories' => ['required', 'array'],
+            //'categories.id' => ['required', 'string', Rule::exists('categories', 'id')],
         ];
     }
 }

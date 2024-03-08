@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/getUser', [AuthController::class, 'getUser'])->name('auth.user');
 
+    Route::get('/getRole', [AuthController::class, 'getRole'])->name('auth.role');
+
     //   -------------------------------------Article routes --------------------------------
     Route::post('/article/create', [ArticlesController::class, 'store'])->name('article.store');
 
@@ -48,14 +50,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //   ------------------------------------- Administration routes --------------------------------
     Route::prefix('administration/')->group(function(){
-
         //   -------------------------------------Super-admin routes --------------------------------
-
+        Route::get('user/index', [UserController::class, 'getAllUser'])->middleware(['can:get_all_user'])->name('user.index');
         Route::get('revoke-moderator/{user}', [UserController::class, 'revokeAdmin'])->middleware(['can:revoke_admin'])->name('revoke_admin');
         Route::get('delete-article/{article}', [ArticlesController::class, 'destroy'])->middleware(['can:delete_article'])->name('delete_article');
 
         //   -------------------------------------Admin routes --------------------------------
-
         Route::get('promote-to-moderator/{user}', [UserController::class, 'promoteToModerator'])->middleware(['can:promote_moderator']);
         Route::get('revoke-moderator/{user}', [UserController::class, 'revokeModerator'])->middleware(['can:revoke_moderator']);
 
@@ -63,7 +63,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('delete-category/{category}', [CategoriesController::class, 'destroy'])->name('delete-category');
             Route::get('create-category/', [CategoriesController::class, 'store'])->name('create-category');
         });
-
         //   -------------------------------------Moderator routes --------------------------------
 
         Route::middleware(['can:validate_article'])->group(function () {

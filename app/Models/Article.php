@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Article extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'title',
         'content',
@@ -21,21 +20,17 @@ class Article extends Model
         'validated',
         'user_id'
     ];
-
     protected $casts = [
         'validated' => 'boolean',
     ];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
     public function commentaries(): hasMany
     {
         return $this->hasMany(Commentary::class);
     }
-
     public function favories(): hasMany
     {
         return $this->hasMany(Favorite::class);

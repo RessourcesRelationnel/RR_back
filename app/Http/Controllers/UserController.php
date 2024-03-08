@@ -74,4 +74,9 @@ class UserController extends Controller
         }
         return response()->json(['message' => 'user is not moderator']);
     }
+
+    public function getAllUser(){
+        $user = User::all();
+        return response()->json(['success' => $user], 200);
+    }
 }

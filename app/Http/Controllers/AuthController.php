@@ -18,6 +18,7 @@ class AuthController extends Controller
             'password' => 'required|min:6',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'date_of_birth' => 'required|date',
         ]);
 
         if($credentials->fails()){
@@ -35,7 +36,7 @@ class AuthController extends Controller
         if($user){
             $user->assignRole('user');
             $token = $user->createToken('access_token')->plainTextToken;
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'user' => $user], 200);
         }
     }
 
@@ -63,6 +64,12 @@ class AuthController extends Controller
 
     public function getUser(){
         return response()->json(['success', Auth::user()], 200);
+    }
+
+    public function getRole(){
+
+        $roles = Auth::user()->getRoleNames();
+        return response()->json(['success' => $roles], 200);
     }
 
     // il faudra tester que ca fonctionne

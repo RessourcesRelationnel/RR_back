@@ -20,5 +20,13 @@ class CategoriesSeeder extends Seeder
         Category::create([
             'name' => 'culture'
         ]);
+
+        Category::create([
+            'name' => 'combat'
+        ]);
+
+        Category::create([
+            'name' => 'coucou seb'
+        ]);
     }
 }
