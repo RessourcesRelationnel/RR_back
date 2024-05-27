@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile
     image: my-laravel-app
     container_name: laravel_app
-    restart: unless-stopped
     working_dir: /app
     volumes:
       - .:/app
@@ -26,7 +25,6 @@ services:
   db:
     image: mysql:5.7
     container_name: laravel_db
-    restart: unless-stopped
     environment:
       MYSQL_DATABASE: rr_back
       MYSQL_ROOT_PASSWORD: root
