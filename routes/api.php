@@ -48,6 +48,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //   -------------------------------------Commentary routes --------------------------------
     Route::post('/commentary/add/{article}', [CommentariesController::class, 'store'])->name('commentary.store');
 
+
+    Route::post('/commentaryeee/add/{article}', [CommentariesController::class, 'store'])->name('commentary.store');
+
     //   ------------------------------------- Administration routes --------------------------------
     Route::prefix('administration/')->group(function(){
         //   -------------------------------------Super-admin routes --------------------------------
