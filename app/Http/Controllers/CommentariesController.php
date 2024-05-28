@@ -6,6 +6,7 @@ use App\Http\Requests\commentary\StorecommentariesRequest;
 use App\Http\Requests\commentary\UpdatecommentariesRequest;
 use App\Models\Article;
 use App\Models\Commentary;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,21 +27,22 @@ class CommentariesController extends Controller
         $commentary->article_id = $article->id;
         $commentary->save();
 
-        return response()->json(["success" => 'Commentaire  " ' . $commentary['comment'] . ' " créer avec succès'], Response::HTTP_CREATED);
+        return response()->json(['success' => 'Commentaire  " ' . $commentary['comment'] . ' " créer avec succès'], Response::HTTP_CREATED);
     }
 
     public function update(Commentary $commentary, UpdatecommentariesRequest $request)
     {
-        if ($commentary['user_id']!= Auth::user()->id){
+        if ($commentary['user_id'] != Auth::user()->id) {
 
             $validateArticle = $request->validated();
             $commentary->update($validateArticle);
+
             return response()->json($commentary, Response::HTTP_ACCEPTED);
-        };
-        return response()->json(['commentaire'=>"User invalide"], Response::HTTP_ACCEPTED);
+        }
+
+        return response()->json(['commentaire' => 'User invalide'], Response::HTTP_ACCEPTED);
 
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -49,9 +51,10 @@ class CommentariesController extends Controller
     {
         try {
             $commentary->delete();
-        }catch (\Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+
         return response()->json('Suppression réussi', 200);
     }
 }

@@ -22,7 +22,7 @@ class UpdatecategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['string', 'nullable'],
+            'name' => ['string', 'nullable'],
         ];
     }
 }
