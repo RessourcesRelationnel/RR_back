@@ -1,4 +1,4 @@
-version: '1.0'
+version: '3.8'
 services:
   app:
     build:
@@ -12,16 +12,14 @@ services:
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
-      - DB_HOST=127.0.0.1
+      - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=rr_back
       - DB_USERNAME=admin
       - DB_PASSWORD=12345678
     ports:
-      - "8181:8181"
-    networks:
-      - laravel
-
+      - "8080:8080"
+  
   db:
     image: mysql:5.7
     container_name: laravel_db
@@ -32,11 +30,6 @@ services:
       - dbdata:/var/lib/mysql
     ports:
       - "3306:3306"
-    networks:
-      - laravel
-
-networks:
-  laravel:
 
 volumes:
   dbdata:

@@ -12,7 +12,7 @@ class Favorite extends Model
     protected $fillable = [
         'status',
         'user_id',
-        'article_id'
+        'article_id',
     ];
     protected $casts = [
         'status' => 'boolean',

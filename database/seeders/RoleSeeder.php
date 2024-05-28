@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 class RoleSeeder extends Seeder
 {
     /**
@@ -51,8 +51,6 @@ class RoleSeeder extends Seeder
         $moderator->givePermissionTo('delete_comment');
         $moderator->givePermissionTo('can_see_dashboard');
         $admin->givePermissionTo('get_user_without_admin');
-
-
 
         Role::create(['name' => 'user']);
     }
