@@ -24,3 +24,6 @@ jobs:
 
     - name: Run linting
       run: ./vendor/bin/duster fix
+
+    - name: Run tests
+      run: ./vendor/bin/phpunit
