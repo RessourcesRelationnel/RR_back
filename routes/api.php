@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 // ---------------------------Route sans AUTH------------------------
 
+Route::get('json-test', function () { return response()->json([ 'name' => 'Jone', 'updated' => true, ]); });
+
 Route::get('category/{category}/articles', [CategoriesController::class, 'getRecentArticles'])->name('category.articles');
 Route::get('articles/index', [ArticlesController::class, 'indexArticleValidated'])->name('article.index');
 Route::get('article/{article}', [ArticlesController::class, 'show'])->name('article.show');
