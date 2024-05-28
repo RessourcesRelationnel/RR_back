@@ -1,0 +1,10 @@
+name: RR_back
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Run linting
+      run: ./vendor/bin/duster fix
