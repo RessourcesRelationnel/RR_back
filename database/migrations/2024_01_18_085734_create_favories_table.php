@@ -8,23 +8,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('favories', function (Blueprint $table) {
             $table->id();
-            $table->boolean("status");
+            $table->boolean('status');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Article::class);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('favorite');
