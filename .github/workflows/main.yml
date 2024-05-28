@@ -24,3 +24,15 @@ jobs:
 
     - name: Run linting
       run: ./vendor/bin/duster fix
+
+    - name: Generate application key
+      run: php artisan key:generate
+
+    - name: Set up .env file
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+        php artisan config:cache
+
+    - name: Run tests
+      run: vendor/bin/phpunit
