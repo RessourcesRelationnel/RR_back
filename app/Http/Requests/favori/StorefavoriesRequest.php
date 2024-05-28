@@ -22,7 +22,7 @@ class StorefavoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['boolean']
+            'status' => ['boolean'],
         ];
     }
 }

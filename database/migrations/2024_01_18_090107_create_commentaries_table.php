@@ -8,14 +8,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('commentaries', function (Blueprint $table) {
             $table->id();
-            $table->string("comment");
+            $table->string('comment');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Article::class);
 
@@ -23,9 +20,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('commentary');

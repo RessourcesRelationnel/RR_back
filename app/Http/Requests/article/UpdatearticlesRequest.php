@@ -22,10 +22,10 @@ class UpdatearticlesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=> ['string','nullable'],
-            'content'=> ['string', 'nullable'],
-            'img'=> ['mimes:jpg,bmp,png', 'max:1024', 'nullable'],
-            'media'=> ['mimes:pdf', 'nullable' ],
+            'title' => ['string', 'nullable'],
+            'content' => ['string', 'nullable'],
+            'img' => ['mimes:jpg,bmp,png', 'max:1024', 'nullable'],
+            'media' => ['mimes:pdf', 'nullable'],
         ];
     }
 }

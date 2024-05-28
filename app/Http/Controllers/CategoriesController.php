@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\category\StorecategoriesRequest;
 use App\Http\Requests\category\UpdatecategoriesRequest;
 use App\Models\category;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoriesController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -18,13 +18,13 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return response()->json(['success'=> $categories], Response::HTTP_OK);
+
+        return response()->json(['success' => $categories], Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\category\StorecategoriesRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StorecategoriesRequest $request)
@@ -35,11 +35,23 @@ class CategoriesController extends Controller
             Category::create([
                 'name' => $validator['name'],
             ]);
-        }catch (\Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
         return response()->json($validator, Response::HTTP_CREATED);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(category $category)
+    {
+        $category->delete();
+
+        return response()->json($category::all());
     }
 
     /**
@@ -54,10 +66,10 @@ class CategoriesController extends Controller
                 ->get();
 
             return response()->json(['success' => $articles], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Category not found'
+                'message' => 'Category not found',
             ], 404);
         }
     }
@@ -65,8 +77,6 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\category\UpdatecategoriesRequest  $request
-     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\JsonResponse
      */
     public function updateCategory(UpdatecategoriesRequest $request, Category $category)
@@ -75,9 +85,10 @@ class CategoriesController extends Controller
 
         try {
             $category->update($validateCategory);
-        }catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+
         return response()->json($category, Response::HTTP_ACCEPTED);
     }
 
@@ -87,22 +98,10 @@ class CategoriesController extends Controller
 
         try {
             $category->update($validateCategory);
-        }catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
         return response()->json($category, Response::HTTP_ACCEPTED);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(category $category)
-    {
-        $category->delete();
-        return response()->json($category::all());
     }
 }
